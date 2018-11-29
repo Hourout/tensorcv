@@ -34,6 +34,8 @@ def VGG(num_layers, pretrain_file=False, input_shape=None, classes=1000, batch_n
         if tf.gfile.Exists(pretrain_file):
             model.load_weights(pretrain_file)
         else:
+            tf.gfile.MakeDirs(pretrain_file)
+            tf.gfile.DeleteRecursively(pretrain_file)
             tf.keras.utils.get_file(pretrain_file, vgg_url(num_layers))
             model.load_weights(pretrain_file)
     return model
