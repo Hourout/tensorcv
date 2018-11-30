@@ -2,7 +2,7 @@ import tensorflow as tf
 
 alexnet_url = None
 
-def alexnet(pretrain_file=False, input_shape=None, classes=1000):
+def alexnet(input_shape, pretrain_file=False, classes=1000):
     image = tf.keras.Input(shape=input_shape)
     x = tf.keras.layers.Conv2D(64, 11, 4, 'same', activation='relu')(image)
     x = tf.keras.layers.MaxPool2D(3, 2)(x)
@@ -23,6 +23,8 @@ def alexnet(pretrain_file=False, input_shape=None, classes=1000):
         if tf.gfile.Exists(pretrain_file):
             model.load_weights(pretrain_file)
         else:
+            tf.gfile.MakeDirs(pretrain_file)
+            tf.gfile.DeleteRecursively(pretrain_file)
             tf.keras.utils.get_file(pretrain_file, alexnet_url)
             model.load_weights(pretrain_file)
     return model
