@@ -4,10 +4,10 @@ vgg_url = {'vgg11': None,
            'vgg13': None,
            'vgg16': None,
            'vgg19': None,
-           'vgg11_bn':None,
-           'vgg13_bn':None,
-           'vgg16_bn':None,
-           'vgg19_bn':None}
+           'vgg11_bn': None,
+           'vgg13_bn': None,
+           'vgg16_bn': None,
+           'vgg19_bn': None}
 
 vgg_spec = {11: ([1, 1, 2, 2, 2], [64, 128, 256, 512, 512]),
             13: ([2, 2, 2, 2, 2], [64, 128, 256, 512, 512]),
@@ -15,6 +15,8 @@ vgg_spec = {11: ([1, 1, 2, 2, 2], [64, 128, 256, 512, 512]),
             19: ([2, 2, 4, 4, 4], [64, 128, 256, 512, 512])}
 
 def VGG(num_layers, mode, input_shape, include_top, pretrain_file, classes, use_bn):
+    if isinstance(pretrain_file, str) and include_top and classes != 1000:
+        raise ValueError('If using `pretrain weights` with `include_top` as true, `classes` should be 1000')
     layers, filters = vgg_spec[num_layers]
     assert len(layers) == len(filters)
     image = tf.keras.Input(shape=input_shape)
@@ -37,12 +39,12 @@ def VGG(num_layers, mode, input_shape, include_top, pretrain_file, classes, use_
     model = tf.keras.Model(image, x, name=mode)
     if isinstance(pretrain_file, str):
         if tf.gfile.Exists(pretrain_file):
-            model.load_weights(pretrain_file)
+            model.load_weights(pretrain_file, by_name=True)
         else:
             tf.gfile.MakeDirs(pretrain_file)
             tf.gfile.DeleteRecursively(pretrain_file)
             tf.keras.utils.get_file(pretrain_file, vgg_url(mode))
-            model.load_weights(pretrain_file)
+            model.load_weights(pretrain_file, by_name=True)
     return model
 
 def vgg11(input_shape, include_top=True, pretrain_file=False, classes=1000):
