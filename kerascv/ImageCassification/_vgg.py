@@ -14,7 +14,7 @@ vgg_spec = {11: ([1, 1, 2, 2, 2], [64, 128, 256, 512, 512]),
             16: ([2, 2, 3, 3, 3], [64, 128, 256, 512, 512]),
             19: ([2, 2, 4, 4, 4], [64, 128, 256, 512, 512])}
 
-def VGG(num_layers, mode, input_shape, include_top, pretrain_file, classes, if_bn):
+def VGG(num_layers, mode, input_shape, include_top, pretrain_file, classes, use_bn):
     layers, filters = vgg_spec[num_layers]
     assert len(layers) == len(filters)
     image = tf.keras.Input(shape=input_shape)
@@ -24,7 +24,7 @@ def VGG(num_layers, mode, input_shape, include_top, pretrain_file, classes, if_b
                 x = tf.keras.layers.Conv2D(filters[i], 3, 1, 'same', name='conv'+str(i+1)+'_'+str(j+1))(image)
             else:
                 x = tf.keras.layers.Conv2D(filters[i], 3, 1, 'same', name='conv'+str(i+1)+'_'+str(j+1))(x)
-            if if_bn:
+            if use_bn:
                 x = tf.keras.layers.BatchNormalization(name='bn'+str(i+1)+'_'+str(j+1))(x)
             x = tf.keras.layers.ReLU(name='relu'+str(i+1)+'_'+str(j+1))(x)
         x = tf.keras.layers.MaxPool2D(2, 2, name='pool'+str(i+1)+'_'+str(j+1))(x)
