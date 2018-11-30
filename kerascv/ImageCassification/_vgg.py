@@ -1,16 +1,20 @@
 import tensorflow as tf
 
-vgg_url = {11: None,
-           13: None,
-           16: None,
-           19: None}
+vgg_url = {'11': None,
+           '13': None,
+           '16': None,
+           '19': None,
+           '11_bn':None,
+           '13_bn':None,
+           '16_bn':None,
+           '19_bn':None}
 
 vgg_spec = {11: ([1, 1, 2, 2, 2], [64, 128, 256, 512, 512]),
             13: ([2, 2, 2, 2, 2], [64, 128, 256, 512, 512]),
             16: ([2, 2, 3, 3, 3], [64, 128, 256, 512, 512]),
             19: ([2, 2, 4, 4, 4], [64, 128, 256, 512, 512])}
 
-def VGG(num_layers, pretrain_file=False, input_shape=None, classes=1000, batch_norm=False):
+def VGG(num_layers, mode, pretrain_file=False, input_shape=None, classes=1000, batch_norm=False):
     layers, filters = vgg_spec[num_layers]
     assert len(layers) == len(filters)
     image = tf.keras.Input(shape=input_shape)
@@ -36,30 +40,30 @@ def VGG(num_layers, pretrain_file=False, input_shape=None, classes=1000, batch_n
         else:
             tf.gfile.MakeDirs(pretrain_file)
             tf.gfile.DeleteRecursively(pretrain_file)
-            tf.keras.utils.get_file(pretrain_file, vgg_url(num_layers))
+            tf.keras.utils.get_file(pretrain_file, vgg_url(mode))
             model.load_weights(pretrain_file)
     return model
 
-def vgg11(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(11, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
+def vgg11(input_shape, pretrain_file=False, classes=1000):
+    return VGG(11, '11', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
 
-def vgg13(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(13, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
+def vgg13(input_shape, pretrain_file=False, classes=1000):
+    return VGG(13, '13', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
 
-def vgg16(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(16, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
+def vgg16(input_shape, pretrain_file=False, classes=1000):
+    return VGG(16, '16', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
 
-def vgg19(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(19, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
+def vgg19(input_shape, pretrain_file=False, classes=1000):
+    return VGG(19, '19', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=False)
 
-def vgg11_bn(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(11, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
+def vgg11_bn(input_shape, pretrain_file=False, classes=1000):
+    return VGG(11, '11_bn', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
 
-def vgg13_bn(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(11, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
+def vgg13_bn(input_shape, pretrain_file=False, classes=1000):
+    return VGG(13, '13_bn', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
 
-def vgg16_bn(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(11, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
+def vgg16_bn(input_shape, pretrain_file=False, classes=1000):
+    return VGG(16, '16_bn', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
 
-def vgg19_bn(pretrain_file=False, input_shape=None, classes=1000):
-    return VGG(11, pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
+def vgg19_bn(input_shape, pretrain_file=False, classes=1000):
+    return VGG(19, '19_bn', pretrain_file=pretrain_file, input_shape=input_shape, classes=classes, batch_norm=True)
