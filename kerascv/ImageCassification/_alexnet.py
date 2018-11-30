@@ -3,6 +3,8 @@ import tensorflow as tf
 alexnet_url = None
 
 def alexnet(input_shape, include_top=True, pretrain_file=False, classes=1000):
+    if isinstance(pretrain_file, str) and include_top and classes != 1000:
+        raise ValueError('If using `pretrain weights` with `include_top` as true, `classes` should be 1000')
     image = tf.keras.Input(shape=input_shape)
     x = tf.keras.layers.Conv2D(64, 11, 4, 'same', activation='relu', name='conv1')(image)
     x = tf.keras.layers.MaxPool2D(3, 2, name='pool1')(x)
