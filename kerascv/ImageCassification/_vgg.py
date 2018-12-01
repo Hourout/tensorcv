@@ -31,6 +31,7 @@ def VGG(num_layers, mode, input_shape, include_top, pretrain_file, classes, use_
             x = tf.keras.layers.ReLU(name='relu'+str(i+1)+'_'+str(j+1))(x)
         x = tf.keras.layers.MaxPool2D(2, 2, name='pool'+str(i+1)+'_'+str(j+1))(x)
     if include_top:
+        x = tf.keras.layers.Flatten(name='flatten')(x)
         x = tf.keras.layers.Dense(4096, 'relu', name='liner1')(x)
         x = tf.keras.layers.Dropout(0.5, name='drop1')(x)
         x = tf.keras.layers.Dense(4096, 'relu', name='liner2')(x)
