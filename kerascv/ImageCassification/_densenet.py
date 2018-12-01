@@ -55,7 +55,7 @@ def get_densenet(num_layers, mode, input_shape, include_top, pretrain_file, clas
         else:
             tf.gfile.MakeDirs(pretrain_file)
             tf.gfile.DeleteRecursively(pretrain_file)
-            tf.keras.utils.get_file(pretrain_file, vgg_url(mode))
+            tf.keras.utils.get_file(pretrain_file, densenet_url(mode))
             model.load_weights(pretrain_file, by_name=True)
     return model
 
