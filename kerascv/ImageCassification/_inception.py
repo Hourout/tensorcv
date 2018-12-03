@@ -1,5 +1,7 @@
 import tensorflow as tf
 
+inception3_url = None
+
 def _make_branch(tensor, use_pool, *conv_settings):
     if use_pool == 'avg':
         x = tf.keras.layers.ZeroPadding2D(((1,1), (1,1)))(tensor)
@@ -109,6 +111,6 @@ def inception_v3(input_shape, include_top=True, pretrain_file=False, classes=100
         else:
             tf.gfile.MakeDirs(pretrain_file)
             tf.gfile.DeleteRecursively(pretrain_file)
-            tf.keras.utils.get_file(pretrain_file, vgg_url(mode))
+            tf.keras.utils.get_file(pretrain_file, inception3_url)
             model.load_weights(pretrain_file, by_name=True)
     return model
