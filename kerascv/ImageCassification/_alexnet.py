@@ -42,4 +42,17 @@ def get_alexnet(input_shape, include_top, pretrain_file, classes):
     return model
 
 def alexnet(input_shape, include_top=True, pretrain_file=False, classes=1000):
+    r"""AlexNet model from the `"One weird trick..." <https://arxiv.org/abs/1404.5997>`_ paper.
+    Parameters
+    ----------
+    input_shape : tuple of 3 ints, input image shape.
+    include_top : whether to include the fully-connected layer at the top of the network.
+    pretrain_file : bool or str
+        Boolean value controls whether to load the default pretrained weights for model.
+        String value represents the hashtag for a certain version of pretrained weights.
+        String value must be absolute path of the pretrained weights file,
+        if pretrain file is not exists, will auto create dir and download pretrained weights.
+    classes: optional number of classes to classify images into, 
+             only to be specified if `include_top` is True.
+    """
     return get_alexnet(input_shape, include_top, pretrain_file, classes)
