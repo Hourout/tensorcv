@@ -17,7 +17,6 @@ setup(name='kerascv',
       keywords=['computer-vision', 'keras', 'tf.keras', 'deep-learning'],
       license='Apache-2.0',
       classifiers=[
-          'Framework :: tensorflow',
           'Intended Audience :: Developers',
           'Intended Audience :: Education',
           'Intended Audience :: Science/Research',
