@@ -1,5 +1,5 @@
 # tensorcv
-Keras and tensorflow CV Toolkit
+Keras and TensorFlow CV Toolkit
 
 ![PyPI version](https://img.shields.io/pypi/pyversions/tensorcv.svg)
 ![Github license](https://img.shields.io/github/license/Hourout/tensorcv.svg)
