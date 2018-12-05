@@ -55,7 +55,7 @@ def SENet(tensor, layers, cardinality, bottleneck_width, channels=64):
     x = tf.keras.layers.GlobalAvgPool2D()(x)
     return x
 
-senet_url = {'senet_50': None;
+senet_url = {'senet_50': None,
              'senet_101': None,
              'senet_152': None}
 
