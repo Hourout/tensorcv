@@ -6,7 +6,7 @@ def readme():
         return f.read()
 
 setup(name='tensorcv',
-      version='0.0.5',
+      version='0.0.6',
       install_requires=['tensorflow>=1.12.0'],
       description='tf.Keras implementations of a Deep Learning Toolkit for Computer Vision.',
       long_description=readme(),
