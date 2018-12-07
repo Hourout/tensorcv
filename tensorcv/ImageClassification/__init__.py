@@ -21,3 +21,5 @@ from tensorcv.ImageClassification._resnet import se_resnet34_v1, se_resnet34_v2
 from tensorcv.ImageClassification._resnet import se_resnet50_v1, se_resnet50_v2
 from tensorcv.ImageClassification._resnet import se_resnet101_v1, se_resnet101_v2
 from tensorcv.ImageClassification._resnet import se_resnet152_v1, se_resnet152_v2
+
+from tensorcv.ImageClassification._squeezenet import squeezenet1_0, squeezenet1_1
