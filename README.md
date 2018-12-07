@@ -7,7 +7,7 @@ Keras and TensorFlow CV Toolkit
 [![PyPI](https://img.shields.io/pypi/v/tensorcv.svg)](https://pypi.python.org/pypi/tensorcv)
 ![PyPI format](https://img.shields.io/pypi/format/tensorcv.svg)
 
-## [中文介绍](https://github.com/Hourout/tensorcv/blob/master/document/Chinese.md)
+| [中文介绍](https://github.com/Hourout/tensorcv/blob/master/document/Chinese.md) |[ Version ](https://github.com/Hourout/tensorcv/blob/master/document/version.md)|
 
 ## Installation
 To install [this verson from PyPI](https://pypi.org/project/tensorcv/), type:
