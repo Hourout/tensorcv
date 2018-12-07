@@ -195,9 +195,10 @@ def get_resnet(version, num_layers, mode, input_shape, include_top, pretrain_fil
     block_class = resnet_block_versions[version-1][block_type]
     
     image = tf.keras.Input(shape=input_shape)
-    net = resnet_class(image, block_class, layers, channels, use_se=use_se)
-    x = tf.keras.layers.GlobalAvgPool2D()(net)
-    x = tf.keras.layers.Dense(classes)(x)
+    x = resnet_class(image, block_class, layers, channels, use_se=use_se)
+    if include_top:
+        x = tf.keras.layers.GlobalAvgPool2D()(x)
+        x = tf.keras.layers.Dense(classes)(x)
     model = tf.keras.Model(image, x, name=mode)
     
     if isinstance(pretrain_file, str):
