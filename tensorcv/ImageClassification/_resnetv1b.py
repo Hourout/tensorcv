@@ -47,7 +47,7 @@ def BottleneckV1b(tensor, channels, strides, dilation, downsample, previous_dila
             else:
                 ds = tf.keras.layers.AvgPool2D(1, 1)(tensor)
             ds = tf.keras.layers.nn.Conv2D(channels*expansion, 1, use_bias=False)(ds)
-        ds = tf.keras.layers.BatchNormalization()(ds)
+            ds = tf.keras.layers.BatchNormalization()(ds)
         else:
             ds = tf.keras.layers.Conv2D(channels*expansion, 1, strides, use_bias=False)(tensor)
             ds = tf.keras.layers.BatchNormalization()(ds)
