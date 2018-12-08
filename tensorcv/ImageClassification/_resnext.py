@@ -47,12 +47,12 @@ def ResNext(tensor, layers, cardinality, bottleneck_width, last_gamma=False, use
         channels *= 2
     return x
 
-resnext_url = {'resnext50_32x4d':None
-               'resnext101_32x4d':None
-               'resnext101_64x4d':None
-               'se_resnext50_32x4d':None
-               'se_resnext50_32x4d':None
-               'se_resnext101_32x4d':None
+resnext_url = {'resnext50_32x4d':None,
+               'resnext101_32x4d':None,
+               'resnext101_64x4d':None,
+               'se_resnext50_32x4d':None,
+               'se_resnext50_32x4d':None,
+               'se_resnext101_32x4d':None,
                'se_resnext101_64x4d':None}
 
 resnext_spec = {50: [3, 4, 6, 3],
