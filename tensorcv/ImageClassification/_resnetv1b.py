@@ -35,7 +35,7 @@ def BottleneckV1b(tensor, channels, strides, dilation, downsample, previous_dila
     x = tf.keras.layers.Conv2D(channels, 3, strides, dilation_rate=dilation, use_bias=False)(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
-    x = tf.keras.layers.Conv2D(channel*4s, 1, use_bias=False)(x)
+    x = tf.keras.layers.Conv2D(channel*4, 1, use_bias=False)(x)
     if not last_gamma:
         x = tf.keras.layers.BatchNormalization()(x)
     else:
