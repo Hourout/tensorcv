@@ -1,3 +1,5 @@
+#### tensorcv-0.0.8
+- add resnetv1b
 #### tensorcv-0.0.7
 - add resnext
 #### tensorcv-0.0.6
