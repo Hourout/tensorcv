@@ -87,7 +87,7 @@ def ResNetV1b(tensor, block, layers, expansion, dilated=False, last_gamma=False,
         x, inplanes = _make_layer(x, inplanes, block, 512, layers[3], 2, 1, avg_down, last_gamma)
 
     def _make_layer(tensor, inplanes, block, channels, blocks, strides=1, dilation=1, avg_down=False, last_gamma=False):
-        downsample = strides != 1 or inplanes != channels * expansion:
+        downsample = strides != 1 or inplanes != channels * expansion
         if dilation in (1, 2):
             x = block(tensor, channels, strides, 1, downsample, dilation, last_gamma, avg_down)
         elif dilation == 4:
