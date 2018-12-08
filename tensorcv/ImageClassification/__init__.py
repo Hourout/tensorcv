@@ -28,8 +28,9 @@ from tensorcv.ImageClassification._resnext import resnext50_32x4d, se_resnext50_
 from tensorcv.ImageClassification._resnext import resnext101_32x4d, se_resnext101_32x4d
 from tensorcv.ImageClassification._resnext import resnext101_64x4d, se_resnext101_64x4d
 
-from tensorcv.ImageClassification._resnetv1b import resnet18_v1b, resnet34_v1b, resnet50_v1b, resnet101_v1b, resnet152_v1b
+from tensorcv.ImageClassification._resnetv1b import resnet18_v1b, resnet34_v1b
+from tensorcv.ImageClassification._resnetv1b import resnet50_v1b, resnet101_v1b, resnet152_v1b
 from tensorcv.ImageClassification._resnetv1b import resnet50_v1c, resnet101_v1c, resnet152_v1c
 from tensorcv.ImageClassification._resnetv1b import resnet50_v1d, resnet101_v1d, resnet152_v1d
 from tensorcv.ImageClassification._resnetv1b import resnet50_v1e, resnet101_v1e, resnet152_v1e
-           'resnet50_v1s', 'resnet101_v1s', 'resnet152_v1s
+from tensorcv.ImageClassification._resnetv1b import resnet50_v1s, resnet101_v1s, resnet152_v1s
