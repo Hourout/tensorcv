@@ -1,10 +1,15 @@
 import tensorflow as tf
 
-# def random_brightness(image, lower, upper, seed=None):
-#     if upper>1 or upper<=lower or lower<0:
-#         raise ValueError('lower and upper should be upper > lower and in the range [0,1).')
-#     delta = tf.random.uniform([], lower, upper, seed=seed)
-#     return tf.image.adjust_brightness(image, delta)
+def RandomBrightness(image, delta, seed=None):
+    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    if isinstance(delta, (int, float)):
+        image = tf.image.adjust_brightness(image, delta)
+    elif 0<=delta[0]<delta[1]:
+        random_delta = tf.random.uniform([], delta[0], delta[1], seed=seed)
+        image = tf.image.adjust_brightness(image, random_delta)
+    else:
+        raise ValueError('lower and upper should be upper > lower >= 0.')
+    return image
 
 # def random_hue(image, lower, upper, seed=None):
 #     if upper>1 or upper<=lower or lower<-1:
