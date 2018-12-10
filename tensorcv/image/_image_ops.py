@@ -27,3 +27,28 @@ def read_image(filename, channel=0, image_format='mix'):
     else:
         raise ValueError('image_format should be one of "mix", "jpg", "jpeg", "png", "gif", "bmp".')
     return image
+
+def RandomFlipLeftRight(image, random=True, seed=None):
+    assert isinstance(random, bool), 'random should be bool type.'
+    if random:
+        image = tf.image.random_flip_left_right(image, seed=seed)
+    else:
+        image = tf.image.flip_left_right(image)
+    return image
+
+def RandomFlipTopBottom(image, random=True, seed=None):
+    assert isinstance(random, bool), 'random should be bool type.'
+    if random:
+        image = tf.image.random_flip_up_down(image, seed=seed)
+    else:
+        image = tf.image.flip_up_down(image)
+    return image
+
+def RandomTranspose(image, random=True, seed=None):
+    assert isinstance(random, bool), 'random should be bool type.'
+    if random:
+        r = tf.random.uniform([2], 0, 1, seed=seed)
+        image = tf.case([(tf.less(r[0], r[1]), lambda :tf.image.transpose_image(image))], lambda :image)
+    else:
+        image = tf.image.transpose_image(image)
+    return image
