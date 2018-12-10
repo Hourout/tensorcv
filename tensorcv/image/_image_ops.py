@@ -1,16 +1,16 @@
 import tensorflow as tf
 
-def random_brightness(image, lower, upper, seed=None):
-    if upper>1 or upper<=lower or lower<0:
-        raise ValueError('lower and upper should be upper > lower and in the range [0,1).')
-    delta = tf.random.uniform([], lower, upper, seed=seed)
-    return tf.image.adjust_brightness(image, delta)
+# def random_brightness(image, lower, upper, seed=None):
+#     if upper>1 or upper<=lower or lower<0:
+#         raise ValueError('lower and upper should be upper > lower and in the range [0,1).')
+#     delta = tf.random.uniform([], lower, upper, seed=seed)
+#     return tf.image.adjust_brightness(image, delta)
 
-def random_hue(image, lower, upper, seed=None):
-    if upper>1 or upper<=lower or lower<-1:
-        raise ValueError('lower and upper should be upper > lower and in the range [-1,1].')
-    delta = tf.random.uniform([], lower, upper, seed=seed)
-    return tf.image.adjust_hue(image, delta)
+# def random_hue(image, lower, upper, seed=None):
+#     if upper>1 or upper<=lower or lower<-1:
+#         raise ValueError('lower and upper should be upper > lower and in the range [-1,1].')
+#     delta = tf.random.uniform([], lower, upper, seed=seed)
+#     return tf.image.adjust_hue(image, delta)
 
 def read_image(filename, channel=0, image_format='mix'):
     image = tf.io.read_file(filename)
@@ -53,14 +53,14 @@ def RandomTranspose(image, random=True, seed=None):
         image = tf.image.transpose_image(image)
     return image
 
-def RandomRotation(image, k=[1, 2, 3, 4], random=True, seed=None):
+def RandomRotation(image, k=[0, 1, 2, 3], random=True, seed=None):
     assert isinstance(random, bool), 'random should be bool type.'
     if random:
-        assert isinstance(k, list), 'if random is True, sublist in the [1, 2, 3, 4].'
+        assert isinstance(k, list), 'if random is True, sublist in the [0, 1, 2, 3].'
         k_value = tf.convert_to_tensor(k)
         index = tf.argmax(tf.random.uniform([tf.shape(k_value)[0]], 0, 1))
-        image = tf.image.rot90(image, k_value[index])
+        image = tf.image.rot90(image, k=k_value[index])
     else:
-        assert k in [1, 2, 3, 4], 'if random is False, should be int one of [1, 2, 3, 4].'
+        assert k in [1, 2, 3], 'if random is False, should be int one of [1, 2, 3].'
         image = tf.image.rot90(image, k)
     return image
