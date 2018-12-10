@@ -1,3 +1,9 @@
+#### tensorcv-0.0.9
+- add tc.image.read_image()
+- add tc.image.RandomFlipLeftRight()
+- add tc.image.RandomFlipTopBottom()
+- add tc.image.RandomTranspose()
+- add tc.image.RandomRotation()
 #### tensorcv-0.0.8
 - add resnetv1b
 #### tensorcv-0.0.7
