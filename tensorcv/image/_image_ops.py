@@ -48,7 +48,19 @@ def RandomTranspose(image, random=True, seed=None):
     assert isinstance(random, bool), 'random should be bool type.'
     if random:
         r = tf.random.uniform([2], 0, 1, seed=seed)
-        image = tf.case([(tf.less(r[0], r[1]), lambda :tf.image.transpose_image(image))], lambda :image)
+        image = tf.case([(tf.less(r[0], r[1]), lambda: tf.image.transpose_image(image))], default=lambda: image)
     else:
         image = tf.image.transpose_image(image)
+    return image
+
+def RandomRotation(image, k=[1, 2, 3, 4], random=True, seed=None):
+    assert isinstance(random, bool), 'random should be bool type.'
+    if random:
+        assert isinstance(k, list), 'if random is True, sublist in the [1, 2, 3, 4].'
+        k_value = tf.convert_to_tensor(k)
+        index = tf.argmax(tf.random.uniform([tf.shape(k_value)[0]], 0, 1))
+        image = tf.image.rot90(image, k_value[index])
+    else:
+        assert k in [1, 2, 3, 4], 'if random is False, should be int one of [1, 2, 3, 4].'
+        image = tf.image.rot90(image, k)
     return image
