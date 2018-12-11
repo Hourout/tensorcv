@@ -1,5 +1,21 @@
 import tensorflow as tf
 
+def read_image(filename, channel=0, image_format='mix'):
+    image = tf.io.read_file(filename)
+    if image_format=='png':
+        image = tf.image.decode_png(image, channel)
+    elif image_format=='bmp':
+        image = tf.image.decode_bmp(image, channel)
+    elif image_format=='gif':
+        image = tf.image.decode_gif(image)
+    elif image_format in ["jpg", "jpeg"]:
+        image = tf.image.decode_jpeg(image, channel)
+    elif image_format=='mix':
+        image = tf.image.decode_image(image)
+    else:
+        raise ValueError('image_format should be one of "mix", "jpg", "jpeg", "png", "gif", "bmp".')
+    return image
+
 def RandomBrightness(image, delta, seed=None):
     assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
     if isinstance(delta, (int, float)):
@@ -50,20 +66,18 @@ def RandomSaturation(image, delta, seed=None):
         raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
     return image
 
-def read_image(filename, channel=0, image_format='mix'):
-    image = tf.io.read_file(filename)
-    if image_format=='png':
-        image = tf.image.decode_png(image, channel)
-    elif image_format=='bmp':
-        image = tf.image.decode_bmp(image, channel)
-    elif image_format=='gif':
-        image = tf.image.decode_gif(image)
-    elif image_format in ["jpg", "jpeg"]:
-        image = tf.image.decode_jpeg(image, channel)
-    elif image_format=='mix':
-        image = tf.image.decode_image(image)
+def RandomGamma(image, gamma, seed=None):
+    assert isinstance(gamma, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    if isinstance(gamma, (int, float)):
+        if 0<=gamma:
+            image = tf.image.adjust_gamma(image, gamma, gain=1)
+        else:
+            raise ValueError('if gamma type one of int or float, must be gamma >= 0.')
+    elif 0<=gamma[0]<gamma[1]:
+        random_gamma = tf.random.uniform([], gamma[0], gamma[1], seed=seed)
+        image = tf.image.adjust_gamma(image, random_gamma, gain=1)
     else:
-        raise ValueError('image_format should be one of "mix", "jpg", "jpeg", "png", "gif", "bmp".')
+        raise ValueError('if gamma type one of tuple or list, lower and upper should be upper > lower >= -1.')
     return image
 
 def RandomFlipLeftRight(image, random=True, seed=None):
