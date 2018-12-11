@@ -1,3 +1,9 @@
+#### tensorcv-0.1.0
+- add tc.image.RandomBrightness()
+- add tc.image.RandomContrast()
+- add tc.image.RandomHue()
+- add tc.image.RandomSaturation()
+- add tc.image.RandomGamma()
 #### tensorcv-0.0.9
 - add tc.image.read_image()
 - add tc.image.RandomFlipLeftRight()
