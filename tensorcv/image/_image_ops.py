@@ -117,10 +117,10 @@ def RandomRotation(image, k=[0, 1, 2, 3], random=True, seed=None):
         image = tf.image.rot90(image, k)
     return image
 
-def RandomCentralCropResize(image, central_rate, size, method='bilinear', seed=None):
+def RandomCentralCropResize(image, central_rate, size, method=0, seed=None):
     assert isinstance(central_rate, (int, float, tuple, list)), 'central_rate should be one of int, float, tuple, list.'
     assert isinstance(size, (tuple, list)), 'size should be one of tuple, list.'
-    assert str.lower(str(method)) in ['bilinear', 'area', 'bicubic', 'nearest_neighbor'], 'method should be one of "bilinear", "area", "bicubic", "nearest_neighbor"'
+    assert method in [0, 1, 2, 3], 'method should be one of "0:bilinear", "1:nearest_neighbor", "2:bicubic", "3:area"'
     if isinstance(central_rate, (int, float)):
         if 0<central_rate<=1:
             image = tf.image.central_crop(image, central_fraction=central_rate)
@@ -131,5 +131,23 @@ def RandomCentralCropResize(image, central_rate, size, method='bilinear', seed=N
         image = tf.image.central_crop(image, central_fraction=random_central_rate)
     else:
         raise ValueError('if central_rate type one of tuple or list, lower and upper should be 1 >= upper > lower > 0.')
+    image = tf.image.resize_images(image, size=size, method=method)
+    return image
+
+def RandomPointCropResize(image, height_rate, width_rate, size, method=0, seed=None):
+    assert isinstance(height_rate, (int, float)), 'height_rate should be one of int, float.'
+    assert isinstance(width_rate, (int, float)), 'width_rate should be one of int, float.'
+    assert isinstance(size, (tuple, list)), 'size should be one of tuple, list.'
+    assert method in [0, 1, 2, 3], 'method should be one of "0:bilinear", "1:nearest_neighbor", "2:bicubic", "3:area"'
+    image = tf.convert_to_tensor(image)
+    shape = image.get_shape().as_list()
+    if 0<height_rate<=1 and 0<width_rate<=1:
+        offset_height = tf.math.multiply(tf.random.uniform([], 0, 1-height_rate, seed=seed), shape[-3])
+        offset_width = tf.math.multiply(tf.random.uniform([], 0, 1-width_rate, seed=seed), shape[-2])
+        target_height = tf.math.multiply(height_rate, shape[-3])
+        target_width = tf.math.multiply(width_rate, shape[-2])
+        image = tf.image.crop_to_bounding_box(image, offset_height, offset_width, target_height, target_width)
+    else:
+        raise ValueError('height_rate and width_rate should be in the interval (0, 1].')
     image = tf.image.resize_images(image, size=size, method=method)
     return image
