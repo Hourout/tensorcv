@@ -116,3 +116,20 @@ def RandomRotation(image, k=[0, 1, 2, 3], random=True, seed=None):
         assert k in [1, 2, 3], 'if random is False, should be int one of [1, 2, 3].'
         image = tf.image.rot90(image, k)
     return image
+
+def RandomCentralCropResize(image, central_rate, size, method='bilinear', seed=None):
+    assert isinstance(central_rate, (int, float, tuple, list)), 'central_rate should be one of int, float, tuple, list.'
+    assert isinstance(size, (tuple, list)), 'size should be one of tuple, list.'
+    assert str.lower(str(method)) in ['bilinear', 'area', 'bicubic', 'nearest_neighbor'], 'method should be one of "bilinear", "area", "bicubic", "nearest_neighbor"'
+    if isinstance(central_rate, (int, float)):
+        if 0<central_rate<=1:
+            image = tf.image.central_crop(image, central_fraction=central_rate)
+        else:
+            raise ValueError('if central_rate type one of int or float, must be in the interval (0, 1].')
+    elif 0<central_rate[0]<central_rate[1]<=1:
+        random_central_rate = tf.random.uniform([], central_rate[0], central_rate[1], seed=seed)
+        image = tf.image.central_crop(image, central_fraction=random_central_rate)
+    else:
+        raise ValueError('if central_rate type one of tuple or list, lower and upper should be 1 >= upper > lower > 0.')
+    image = tf.image.resize_images(image, size=size, method=method)
+    return image
