@@ -24,11 +24,18 @@ def RandomContrast(image, delta, seed=None):
         raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
     return image
 
-# def random_hue(image, lower, upper, seed=None):
-#     if upper>1 or upper<=lower or lower<-1:
-#         raise ValueError('lower and upper should be upper > lower and in the range [-1,1].')
-#     delta = tf.random.uniform([], lower, upper, seed=seed)
-#     return tf.image.adjust_hue(image, delta)
+def RandomHue(image, delta, seed=None):
+    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    if isinstance(delta, (int, float)):
+        if -1<=delta<=1:
+            image = tf.image.adjust_hue(image, delta)
+        else:
+            raise ValueError('if delta type one of int or float, must be in the interval [-1, 1].')
+    elif -1<=delta[0]<delta[1]<=1:
+        image = tf.image.random_hue(image, delta[0], delta[1], seed=seed)
+    else:
+        raise ValueError('if delta type one of tuple or list, lower and upper should be 1 >= upper > lower >= -1.')
+    return image
 
 def RandomSaturation(image, delta, seed=None):
     assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
