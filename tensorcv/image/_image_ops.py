@@ -11,6 +11,20 @@ def RandomBrightness(image, delta, seed=None):
         raise ValueError('lower and upper should be upper > lower >= 0.')
     return image
 
+def RandomContrast(image, delta, seed=None):
+    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    if isinstance(delta, (int, float)):
+        if delta>=0:
+            image = tf.image.adjust_contrast(image, delta)
+        else:
+            raise ValueError('if delta type one of int or float, should be delta>=0')
+    elif 0<=delta[0]<delta[1]:
+        random_delta = tf.random.uniform([], delta[0], delta[1], seed=seed)
+        image = tf.image.adjust_brightness(image, random_delta)
+    else:
+        raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
+    return image
+
 # def random_hue(image, lower, upper, seed=None):
 #     if upper>1 or upper<=lower or lower<-1:
 #         raise ValueError('lower and upper should be upper > lower and in the range [-1,1].')
