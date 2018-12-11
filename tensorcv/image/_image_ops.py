@@ -30,6 +30,19 @@ def RandomContrast(image, delta, seed=None):
 #     delta = tf.random.uniform([], lower, upper, seed=seed)
 #     return tf.image.adjust_hue(image, delta)
 
+def RandomSaturation(image, delta, seed=None):
+    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    if isinstance(delta, (int, float)):
+        if delta>=0:
+            image = tf.image.adjust_saturation(image, delta)
+        else:
+            raise ValueError('if delta type one of int or float, should be delta>=0')
+    elif 0<=delta[0]<delta[1]:
+        image = tf.image.random_saturation(image, delta[0], delta[1], seed=seed)
+    else:
+        raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
+    return image
+
 def read_image(filename, channel=0, image_format='mix'):
     image = tf.io.read_file(filename)
     if image_format=='png':
