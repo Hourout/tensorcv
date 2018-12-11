@@ -19,8 +19,7 @@ def RandomContrast(image, delta, seed=None):
         else:
             raise ValueError('if delta type one of int or float, should be delta>=0')
     elif 0<=delta[0]<delta[1]:
-        random_delta = tf.random.uniform([], delta[0], delta[1], seed=seed)
-        image = tf.image.adjust_brightness(image, random_delta)
+        image = tf.image.random_contrast(image, delta[0], delta[1], seed=seed)
     else:
         raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
     return image
