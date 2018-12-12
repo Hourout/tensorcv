@@ -8,3 +8,5 @@ from tensorcv.image._image_ops import RandomFlipLeftRight
 from tensorcv.image._image_ops import RandomFlipTopBottom
 from tensorcv.image._image_ops import RandomTranspose
 from tensorcv.image._image_ops import RandomRotation
+from tensorcv.image._image_ops import RandomCentralCropResize
+from tensorcv.image._image_ops import RandomPointCropResize
