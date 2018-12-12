@@ -1,0 +1,1 @@
+from tensorcv.data._sample import ImageClassificationFolderDataset
