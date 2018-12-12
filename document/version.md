@@ -1,3 +1,7 @@
+#### tensorcv-0.1.1
+- add tc.image.RandomCentralCropResize()
+- add tc.image.RandomPointCropResize()
+- add tc.data.ImageClassificationFolderDataset()
 #### tensorcv-0.1.0
 - add tc.image.RandomBrightness()
 - add tc.image.RandomContrast()
