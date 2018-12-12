@@ -151,3 +151,14 @@ def RandomPointCropResize(image, height_rate, width_rate, size, method=0, seed=N
         raise ValueError('height_rate and width_rate should be in the interval (0, 1].')
     image = tf.image.resize_images(image, size=size, method=method)
     return image
+
+def Normalize(image, mean=None, std=None):
+    image = tf.convert_to_tensor(image, dtype=tf.float32)
+    assert image.get_shape().ndims==3, 'image ndims must be 3.'
+    if mean is None and std is None:
+        image = tf.image.per_image_standardization(image)
+    else:
+        assert isinstance(mean, (int, float, tuple, list)), 'mean type one of int, float, tuple, list.'
+        assert isinstance(std, (int, float, tuple, list)), 'std type one of int, float, tuple, list.'
+        image = tf.math.divide(tf.math.subtract(image, mean), std)
+    return image
