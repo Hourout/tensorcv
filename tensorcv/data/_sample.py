@@ -1,3 +1,6 @@
+import pandas as pd
+import tensorflow as tf
+
 class ImageClassificationFolderDataset():
     def __init__(self, root, image_format=['png', 'jpg', 'jpeg']):
         self.root = root
