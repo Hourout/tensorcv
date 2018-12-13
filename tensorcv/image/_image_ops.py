@@ -201,3 +201,15 @@ def RandomNoisePoisson(image, scale=1, lam=1.0, seed=None):
     else:
         raise ValueError('lam type should be one of int, float, tuple, list.')
     return image
+
+def RandomNoiseMask(image, keep_prob=0.95, seed=None):
+    if isinstance(keep_prob, float):
+        mask = tf.clip_by_value(tf.nn.dropout(tf.random.uniform(image_shape, 1., 2.), keep_prob), 0., 1.)
+        image = tf.math.multiply(mask, image)
+    elif isinstance(keep_prob, (tuple, list)):
+        random_keep_prob = tf.random.uniform([], keep_prob[0], keep_prob[1], seed=seed)
+        mask = tf.clip_by_value(tf.nn.dropout(tf.random.uniform(image_shape, 1., 2.), random_keep_prob), 0., 1.)
+        image = tf.math.multiply(mask, image)
+    else:
+        raise ValueError('keep_prob type should be one of float, tuple, list.')
+    return image
