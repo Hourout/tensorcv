@@ -162,3 +162,28 @@ def Normalize(image, mean=None, std=None):
         assert isinstance(std, (int, float, tuple, list)), 'std type one of int, float, tuple, list.'
         image = tf.math.divide(tf.math.subtract(image, mean), std)
     return image
+
+def RandomGaussianNoise(image, scale=1, mean=0.0, std=1.0, seed=None):
+    assert isinstance(scale, (int, float)), 'scale type should be one of int, float.'
+    image = tf.convert_to_tensor(image, dtype=tf.float32)
+    image_shape = image.get_shape().as_list()
+    if isinstance(mean, (int, float)):
+        if isinstance(std, (int, float)):
+            image = tf.math.add(tf.math.multiply(tf.random.normal(image_shape, mean, std, seed=seed), scale), image)
+        elif isinstance(std, (tuple, list)):
+            random_std = tf.random.uniform([], std[0], std[1])
+            image = tf.math.add(tf.math.multiply(tf.random.normal(image_shape, mean, random_std, seed=seed), scale), image)
+        else:
+            raise ValueError('std type should be one of int, float, tuple, list.')
+    elif isinstance(mean, (tuple, list)):
+        if isinstance(std, (int, float)):
+            random_mean = tf.random.uniform([], mean[0], mean[1])
+            image = tf.math.add(tf.math.multiply(tf.random.normal(image_shape, random_mean, std, seed=seed), scale), image)
+        elif isinstance(std, (tuple, list)):
+            random_mean = tf.random.uniform([], mean[0], mean[1])
+            random_std = tf.random.uniform([], std[0], std[1])
+            image = tf.math.add(tf.math.multiply(tf.random.normal(image_shape, random_mean, random_std, seed=seed), scale), image)
+        else:
+            raise ValueError('std type should be one of int, float, tuple, list.')
+    else:
+        raise ValueError('mean type should be one of int, float, tuple, list.')
