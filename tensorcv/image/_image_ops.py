@@ -187,3 +187,17 @@ def RandomGaussianNoise(image, scale=1, mean=0.0, std=1.0, seed=None):
             raise ValueError('std type should be one of int, float, tuple, list.')
     else:
         raise ValueError('mean type should be one of int, float, tuple, list.')
+    return image
+
+def RandomNoisePoisson(image, scale=1, lam=1.0, seed=None):
+    assert isinstance(scale, (int, float)), 'scale type should be one of int, float.'
+    image = tf.cast(image, dtype=tf.float32)
+    image_shape = image.get_shape().as_list()
+    if isinstance(lam, (int, float)):
+        image = tf.math.add(tf.math.multiply(tf.random.poisson(lam, image_shape, seed=seed), scale), image)
+    elif isinstance(lam, (tuple, list)):
+        random_lam = tf.random.uniform([], lam[0], lam[1])
+        image = tf.math.add(tf.math.multiply(tf.random.poisson(random_lam, image_shape, seed=seed), scale), image)
+    else:
+        raise ValueError('lam type should be one of int, float, tuple, list.')
+    return image
