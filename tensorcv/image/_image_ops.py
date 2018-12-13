@@ -213,3 +213,18 @@ def RandomNoiseMask(image, keep_prob=0.95, seed=None):
     else:
         raise ValueError('keep_prob type should be one of float, tuple, list.')
     return image
+
+def RandomNoiseSaltPepper(image, keep_prob=0.8, seed=None):
+    assert isinstance(keep_prob, (int, float)), 'keep_prob type should be one of int, float.'
+    image = tf.cast(image, dtype=tf.float32)
+    image_shape = image.get_shape().as_list()
+    if isinstance(keep_prob, (int, float)):
+        noise = tf.clip_by_value(tf.math.floor(tf.random.uniform(image_shape, 0.5-0.5/keep_prob, 0.5+0.5/keep_prob)), -1, 1)
+        image = tf.clip_by_value(tf.math.add(tf.math.multiply(noise, 255.), image), 0, 255)
+    elif isinstance(keep_prob, (tuple, list)):
+        random_keep_prob = tf.random.uniform([], keep_prob[0], keep_prob[1], seed=seed)
+        noise = tf.clip_by_value(tf.math.floor(tf.random.uniform(image_shape, 0.5-0.5/keep_prob, 0.5+0.5/keep_prob)), -1, 1)
+        image = tf.clip_by_value(tf.math.add(tf.math.multiply(noise, 255.), image), 0, 255)
+    else:
+        raise ValueError('keep_prob type should be one of int, float, tuple, list.')
+    return image
