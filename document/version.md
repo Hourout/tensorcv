@@ -1,3 +1,10 @@
+#### tensorcv-0.1.3
+- add tc.image.RandomNoiseMask()
+- add tc.image.RandomNoiseSaltPepper()
+#### tensorcv-0.1.2
+- add tc.image.Normalize()
+- add tc.image.RandomGaussianNoise()
+- add tc.image.RandomNoisePoisson()
 #### tensorcv-0.1.1
 - add tc.image.RandomCentralCropResize()
 - add tc.image.RandomPointCropResize()
