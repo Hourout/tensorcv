@@ -96,7 +96,6 @@ def RandomContrast(image, delta, seed=None):
     Raises:
         ValueError: if `delta` type is error.
     """
-    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
     if isinstance(delta, (int, float)):
         image = tf.image.adjust_contrast(image, delta)
     elif isinstance(delta, (list, tuple)):
@@ -128,7 +127,6 @@ def RandomHue(image, delta, seed=None):
     Raises:
         ValueError: if `delta` type is error.
     """
-    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
     if isinstance(delta, (int, float)):
         image = tf.image.adjust_hue(image, delta)
     elif isinstance(delta, (list, tuple)):
@@ -140,16 +138,33 @@ def RandomHue(image, delta, seed=None):
     return image
 
 def RandomSaturation(image, delta, seed=None):
-    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    """Adjust saturation of an RGB image.
+    
+    `image` is an RGB image.  The image saturation is adjusted by converting the
+    image to HSV and multiplying the saturation (S) channel by `delta` and clipping.
+    The image is then converted back to RGB.
+    
+    Tips: if delta <= 0, image channels value are equal, image color is gray.
+          a suitable interval is delta >0
+    Args:
+        image: RGB image or images. Size of the last dimension must be 3.
+        delta: if int, float, Factor to multiply the saturation by.
+               if list, tuple, randomly picked in the interval
+               `[delta[0], delta[1])` , value is factor to multiply the saturation by.
+        seed: A Python integer. Used to create a random seed. See
+             `tf.set_random_seed` for behavior.
+    Returns:
+        The saturation-adjusted image or images tensor of the same shape and type as `image`.
+    Raises:
+        ValueError: if `delta` type is error.
+    """
     if isinstance(delta, (int, float)):
-        if delta>=0:
-            image = tf.image.adjust_saturation(image, delta)
-        else:
-            raise ValueError('if delta type one of int or float, should be delta>=0')
-    elif 0<=delta[0]<delta[1]:
+        image = tf.image.adjust_saturation(image, delta)
+    elif isinstance(delta, (list, tuple)):
+        assert delta[0]<delta[1], 'delta should be delta[1] > delta[0].'
         image = tf.image.random_saturation(image, delta[0], delta[1], seed=seed)
     else:
-        raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
+        raise ValueError('delta should be one of int, float, list, tuple.')
     return image
 
 def RandomGamma(image, gamma, seed=None):
