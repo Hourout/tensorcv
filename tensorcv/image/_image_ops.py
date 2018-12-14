@@ -1,6 +1,31 @@
 import tensorflow as tf
 
 def read_image(filename, channel=0, image_format='mix'):
+    """Convenience function for read image type one of `bmp`, `gif`, `jpeg`, `jpg`, and `png`.
+    
+    Detects whether an image is a BMP, GIF, JPEG, JPG, or PNG, and performs the
+    appropriate operation to convert the input bytes `string` into a `Tensor`
+    of type `dtype`.
+    
+    Note: `gif` returns a 4-D array `[num_frames, height, width, 3]`, as
+    opposed to `bmp`, `jpeg`, `jpg` and `png`, which return 3-D
+    arrays `[height, width, num_channels]`. Make sure to take this into account
+    when constructing your graph if you are intermixing GIF files with BMP, JPEG, JPG,
+    and/or PNG files.
+    Args:
+        filename: 0-D `string`. image absolute path.
+        channels: An optional `int`. Defaults to `0`. Number of color channels for
+                  the decoded image. 1 for `grayscale` and 3 for `rgb`.
+        image_format: 0-D `string`. image format type one of `bmp`, `gif`, `jpeg`,
+                      `jpg`, `png` and `mix`. `mix` mean contains many types image format.
+    Returns:
+        `Tensor` with type uint8 and shape `[height, width, num_channels]` for
+        BMP, JPEG, and PNG images and shape `[num_frames, height, width, 3]` for
+        GIF images.
+    Raises:
+        ValueError: On incorrect number of channels.
+    """
+    assert channel in [0, 1, 3], 'channel should be one of [0, 1, 3].'
     image = tf.io.read_file(filename)
     if image_format=='png':
         image = tf.image.decode_png(image, channel)
@@ -17,40 +42,101 @@ def read_image(filename, channel=0, image_format='mix'):
     return image
 
 def RandomBrightness(image, delta, seed=None):
-    assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    """Adjust the brightness of RGB or Grayscale images.
+    
+    Tips: delta extreme value in the interval [-1, 1], >1 to white, <-1 to black.
+          a suitable interval is [-0.5, 0.5]. 0 means pixel value no change.
+    Args:
+        image: Tensor or array. An image.
+        delta: if int, float, Amount to add to the pixel values.
+               if list, tuple, randomly picked in the interval
+               `[delta[0], delta[1])` to add to the pixel values.
+        seed: A Python integer. Used to create a random seed. See
+             `tf.set_random_seed` for behavior.
+    Returns:
+        A brightness-adjusted tensor of the same shape and type as `image`.
+    Raises:
+        ValueError: if `delta` type is error.
+    """
     if isinstance(delta, (int, float)):
+        assert -1<=delta<=1, 'delta should be in the interval [-1, 1].'
         image = tf.image.adjust_brightness(image, delta)
-    elif 0<=delta[0]<delta[1]:
+    elif isinstance(delta, (list, tuple)):
+        assert -1<=delta[0]<delta[1]<=1, 'delta should be 1 >= delta[1] > delta[0] >= -1.'
         random_delta = tf.random.uniform([], delta[0], delta[1], seed=seed)
         image = tf.image.adjust_brightness(image, random_delta)
     else:
-        raise ValueError('lower and upper should be upper > lower >= 0.')
+        raise ValueError('delta should be one of int, float, list, tuple.')
     return image
 
 def RandomContrast(image, delta, seed=None):
+    """Adjust contrast of RGB or grayscale images.
+    
+    `images` is a tensor of at least 3 dimensions.  The last 3 dimensions are
+    interpreted as `[height, width, channels]`.  The other dimensions only
+    represent a collection of images, such as `[batch, height, width, channels].`
+  
+    Contrast is adjusted independently for each channel of each image.
+    
+    For each channel, this Ops computes the mean of the image pixels in the
+    channel and then adjusts each component `x` of each pixel to
+    `(x - mean) * delta + mean`.
+    
+    Tips:1 means pixel value no change. 0 means all pixel equal. 
+         a suitable interval is (0, 4].
+    Args:
+        images: Tensor or array. An image. At least 3-D.
+        delta: if int, float, a float multiplier for adjusting contrast.
+               if list, tuple, randomly picked in the interval
+               `[delta[0], delta[1])` , value is float multiplier for adjusting contrast.
+        seed: A Python integer. Used to create a random seed. See
+             `tf.set_random_seed` for behavior.
+    Returns:
+        The contrast-adjusted image or images tensor of the same shape and type as `image`.
+    Raises:
+        ValueError: if `delta` type is error.
+    """
     assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
     if isinstance(delta, (int, float)):
-        if delta>=0:
-            image = tf.image.adjust_contrast(image, delta)
-        else:
-            raise ValueError('if delta type one of int or float, should be delta>=0')
-    elif 0<=delta[0]<delta[1]:
-        image = tf.image.random_contrast(image, delta[0], delta[1], seed=seed)
+        image = tf.image.adjust_contrast(image, delta)
+    elif isinstance(delta, (list, tuple)):
+        assert delta[0]<delta[1], 'delta should be delta[1] > delta[0].'
+        random_delta = tf.random.uniform([], delta[0], delta[1], seed=seed)
+        image = tf.image.adjust_contrast(image, random_delta)
     else:
-        raise ValueError('if delta type one of tuple or list, lower and upper should be upper > lower >= 0.')
+        raise ValueError('delta should be one of int, float, list, tuple.')
     return image
 
 def RandomHue(image, delta, seed=None):
+    """Adjust hue of an RGB image.
+    
+    `image` is an RGB image.  The image hue is adjusted by converting the
+    image to HSV and rotating the hue channel (H) by `delta`.
+    The image is then converted back to RGB.
+    
+    Tips:`delta` should be in the interval `[-1, 1]`, but any value is allowed.
+         a suitable interval is [-0.5, 0.5]. int value means pixel value no change.
+    Args:
+        image: Tensor or array. RGB image or images. Size of the last dimension must be 3.
+        delta: if float, How much to add to the hue channel.
+               if list, tuple, randomly picked in the interval
+               `[delta[0], delta[1])` , value is how much to add to the hue channel.
+        seed: A Python integer. Used to create a random seed. See
+             `tf.set_random_seed` for behavior.
+    Returns:
+        The hue-adjusted image or images tensor of the same shape and type as `image`.
+    Raises:
+        ValueError: if `delta` type is error.
+    """
     assert isinstance(delta, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
     if isinstance(delta, (int, float)):
-        if -1<=delta<=1:
-            image = tf.image.adjust_hue(image, delta)
-        else:
-            raise ValueError('if delta type one of int or float, must be in the interval [-1, 1].')
-    elif -1<=delta[0]<delta[1]<=1:
-        image = tf.image.random_hue(image, delta[0], delta[1], seed=seed)
+        image = tf.image.adjust_hue(image, delta)
+    elif isinstance(delta, (list, tuple)):
+        assert delta[0]<delta[1], 'delta should be delta[1] > delta[0].'
+        random_delta = tf.random.uniform([], delta[0], delta[1], seed=seed)
+        image = tf.image.adjust_hue(image, random_delta)
     else:
-        raise ValueError('if delta type one of tuple or list, lower and upper should be 1 >= upper > lower >= -1.')
+        raise ValueError('delta should be one of int, float, list, tuple.')
     return image
 
 def RandomSaturation(image, delta, seed=None):
