@@ -228,3 +228,13 @@ def RandomNoiseSaltPepper(image, keep_prob=0.8, seed=None):
     else:
         raise ValueError('keep_prob type should be one of int, float, tuple, list.')
     return image
+
+def RandomRescale(image, scale, seed=None):
+    if isinstance(scale, (int, float)):
+        image = tf.math.multiply(image, scale)
+    elif isinstance(scale, (tuple, list)):
+        random_scale = tf.random.uniform([], scale[0], scale[1], seed=seed)
+        image = tf.math.multiply(image, random_scale)
+    else:
+        raise ValueError('scale type should be one of int, float, tuple, list.')
+    return image
