@@ -44,8 +44,10 @@ def read_image(filename, channel=0, image_format='mix'):
 def RandomBrightness(image, delta, seed=None):
     """Adjust the brightness of RGB or Grayscale images.
     
-    Tips: delta extreme value in the interval [-1, 1], >1 to white, <-1 to black.
-          a suitable interval is [-0.5, 0.5]. 0 means pixel value no change.
+    Tips:
+        delta extreme value in the interval [-1, 1], >1 to white, <-1 to black.
+        a suitable interval is [-0.5, 0.5].
+        0 means pixel value no change.
     Args:
         image: Tensor or array. An image.
         delta: if int, float, Amount to add to the pixel values.
@@ -82,8 +84,10 @@ def RandomContrast(image, delta, seed=None):
     channel and then adjusts each component `x` of each pixel to
     `(x - mean) * delta + mean`.
     
-    Tips:1 means pixel value no change. 0 means all pixel equal. 
-         a suitable interval is (0, 4].
+    Tips:
+        1 means pixel value no change.
+        0 means all pixel equal. 
+        a suitable interval is (0, 4].
     Args:
         images: Tensor or array. An image. At least 3-D.
         delta: if int, float, a float multiplier for adjusting contrast.
@@ -113,8 +117,10 @@ def RandomHue(image, delta, seed=None):
     image to HSV and rotating the hue channel (H) by `delta`.
     The image is then converted back to RGB.
     
-    Tips:`delta` should be in the interval `[-1, 1]`, but any value is allowed.
-         a suitable interval is [-0.5, 0.5]. int value means pixel value no change.
+    Tips:
+        `delta` should be in the interval `[-1, 1]`, but any value is allowed.
+        a suitable interval is [-0.5, 0.5].
+        int value means pixel value no change.
     Args:
         image: Tensor or array. RGB image or images. Size of the last dimension must be 3.
         delta: if float, How much to add to the hue channel.
@@ -144,8 +150,9 @@ def RandomSaturation(image, delta, seed=None):
     image to HSV and multiplying the saturation (S) channel by `delta` and clipping.
     The image is then converted back to RGB.
     
-    Tips: if delta <= 0, image channels value are equal, image color is gray.
-          a suitable interval is delta >0
+    Tips:
+        if delta <= 0, image channels value are equal, image color is gray.
+        a suitable interval is delta >0
     Args:
         image: RGB image or images. Size of the last dimension must be 3.
         delta: if int, float, Factor to multiply the saturation by.
@@ -168,17 +175,42 @@ def RandomSaturation(image, delta, seed=None):
     return image
 
 def RandomGamma(image, gamma, seed=None):
-    assert isinstance(gamma, (int, float, list, tuple)), 'delta should be one of int, float, list, tuple.'
+    """Performs Gamma Correction on the input image.
+    
+    Also known as Power Law Transform. This function transforms the
+    input image pixelwise according to the equation `Out = In**gamma`
+    after scaling each pixel to the range 0 to 1.
+    
+    Tips:
+        For gamma greater than 1, the histogram will shift towards left and
+        the output image will be darker than the input image.
+        For gamma less than 1, the histogram will shift towards right and
+        the output image will be brighter than the input image.
+        if gamma is 1, image pixel value no change.
+    Args:
+        image : A Tensor.
+        gamma : if int, float, Non negative real number.
+                if list, tuple, randomly picked in the interval
+                `[delta[0], delta[1])` , value is Non negative real number.
+        seed: A Python integer. Used to create a random seed. See
+              `tf.set_random_seed` for behavior.
+    Returns:
+        A float Tensor. Gamma corrected output image.
+    Raises:
+        ValueError: If gamma is negative.
+    References:
+        [1] http://en.wikipedia.org/wiki/Gamma_correction
+    """
+    image = tf.cast(image, dtype=tf.float32)
     if isinstance(gamma, (int, float)):
-        if 0<=gamma:
-            image = tf.image.adjust_gamma(image, gamma, gain=1)
-        else:
-            raise ValueError('if gamma type one of int or float, must be gamma >= 0.')
-    elif 0<=gamma[0]<gamma[1]:
+        assert 0<gamma, 'gamma should be > 0.'
+        image = tf.image.adjust_gamma(image, gamma, gain=1)
+    elif isinstance(gamma, (list, tuple)):
+        assert 0<gamma[0]<gamma[1], 'gamma should be gamma[1] > gamma[0] > 0.'
         random_gamma = tf.random.uniform([], gamma[0], gamma[1], seed=seed)
         image = tf.image.adjust_gamma(image, random_gamma, gain=1)
     else:
-        raise ValueError('if gamma type one of tuple or list, lower and upper should be upper > lower >= -1.')
+        raise ValueError('gamma should be one of int, float, list, tuple.')
     return image
 
 def RandomFlipLeftRight(image, random=True, seed=None):
