@@ -4,6 +4,32 @@ import imageio
 import numpy as np
 
 def mnist_kuzushiji10(root):
+    """Kuzushiji-MNIST from https://github.com/rois-codh/kmnist.
+    
+    Kuzushiji-MNIST is a drop-in replacement for the
+    MNIST dataset (28x28 grayscale, 70,000 images), 
+    provided in the original MNIST format as well as a NumPy format.
+    Since MNIST restricts us to 10 classes, we chose one character to
+    represent each of the 10 rows of Hiragana when creating Kuzushiji-MNIST.
+    
+    Each sample is an gray image (in 3D NDArray) with shape (28, 28, 1).
+    
+    Data storage directory:
+    root = `/user/.../mydata`
+    mnist data: 
+    `root/mnist_kuzushiji10/train/0/xx.png`
+    `root/mnist_kuzushiji10/train/2/xx.png`
+    `root/mnist_kuzushiji10/train/6/xx.png`
+    `root/mnist_kuzushiji10/test/0/xx.png`
+    `root/mnist_kuzushiji10/test/2/xx.png`
+    `root/mnist_kuzushiji10/test/6/xx.png`
+    Args:
+        root: str, Store the absolute path of the data directory.
+              example:if you want data path is `/user/.../mydata/mnist_kuzushiji10`,
+              root should be `/user/.../mydata`.
+    Returns:
+        Store the absolute path of the data directory, is `root/mnist_kuzushiji10`.
+    """
     start = time.time()
     assert tf.gfile.IsDirectory(root), '`root` should be directory.'
     task_path = os.path.join(root, 'mnist_kuzushiji10')
@@ -34,6 +60,30 @@ def mnist_kuzushiji10(root):
     return task_path
 
 def mnist_kuzushiji49(root):
+    """Kuzushiji-49 from https://github.com/rois-codh/kmnist.
+    
+    Kuzushiji-49, as the name suggests, has 49 classes (28x28 grayscale, 270,912 images),
+    is a much larger, but imbalanced dataset containing 48 Hiragana 
+    characters and one Hiragana iteration mark.
+    
+    Each sample is an gray image (in 3D NDArray) with shape (28, 28, 1).
+    
+    Data storage directory:
+    root = `/user/.../mydata`
+    mnist data: 
+    `root/mnist_kuzushiji49/train/0/xx.png`
+    `root/mnist_kuzushiji49/train/2/xx.png`
+    `root/mnist_kuzushiji49/train/6/xx.png`
+    `root/mnist_kuzushiji49/test/0/xx.png`
+    `root/mnist_kuzushiji49/test/2/xx.png`
+    `root/mnist_kuzushiji49/test/6/xx.png`
+    Args:
+        root: str, Store the absolute path of the data directory.
+              example:if you want data path is `/user/.../mydata/mnist_kuzushiji49`,
+              root should be `/user/.../mydata`.
+    Returns:
+        Store the absolute path of the data directory, is `root/mnist_kuzushiji49`.
+    """
     start = time.time()
     assert tf.gfile.IsDirectory(root), '`root` should be directory.'
     task_path = os.path.join(root, 'mnist_kuzushiji49')
