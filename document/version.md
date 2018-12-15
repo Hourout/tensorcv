@@ -1,13 +1,19 @@
+#### tensorcv-0.1.5
+- fix some bug tc.image module
+- add doc with tc.image module
+#### tensorcv-0.1.4
+- add tc.image.RandomNoiseRainbow()
+- add tc.image.RandomRescale()
 #### tensorcv-0.1.3
 - add tc.image.RandomNoiseMask()
 - add tc.image.RandomNoiseSaltPepper()
 #### tensorcv-0.1.2
 - add tc.image.Normalize()
-- add tc.image.RandomGaussianNoise()
+- add tc.image.RandomNoiseGaussian()
 - add tc.image.RandomNoisePoisson()
 #### tensorcv-0.1.1
-- add tc.image.RandomCentralCropResize()
-- add tc.image.RandomPointCropResize()
+- add tc.image.RandomCropCentralResize()
+- add tc.image.RandomCropPointResize()
 - add tc.data.ImageClassificationFolderDataset()
 #### tensorcv-0.1.0
 - add tc.image.RandomBrightness()
