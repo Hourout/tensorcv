@@ -11,8 +11,9 @@ from tensorcv.image._image_ops import RandomRotation
 from tensorcv.image._image_ops import RandomCropCentralResize
 from tensorcv.image._image_ops import RandomCropPointResize
 from tensorcv.image._image_ops import Normalize
-from tensorcv.image._image_ops import RandomGaussianNoise
+from tensorcv.image._image_ops import RandomRescale
+from tensorcv.image._image_ops import RandomNoiseGaussian
 from tensorcv.image._image_ops import RandomNoisePoisson
 from tensorcv.image._image_ops import RandomNoiseMask
 from tensorcv.image._image_ops import RandomNoiseSaltPepper
-from tensorcv.image._image_ops import RandomRescale
+from tensorcv.image._image_ops import RandomNoiseRainbow
