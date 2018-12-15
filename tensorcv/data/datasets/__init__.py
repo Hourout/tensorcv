@@ -1,1 +1,1 @@
-from tensorcv.data.datasets._MNIST_Kuzushiji import MNIST_Kuzushiji_10
+from tensorcv.data.datasets._mnist_kuzushiji import mnist_kuzushiji10
