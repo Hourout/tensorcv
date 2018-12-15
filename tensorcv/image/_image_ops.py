@@ -560,6 +560,10 @@ def RandomNoiseMask(image, keep_prob=0.95, seed=None):
     
     With probability `keep_prob`, outputs the input element scaled up by
     `1`, otherwise outputs `0`. 
+    
+    Tips:
+        1 mean pixel have no change.
+        a suitable interval is [0.9, 1].
     Args:
         image: Either a 3-D float Tensor of shape [height, width, depth], or a 4-D
                Tensor of shape [batch_size, height, width, depth].
@@ -587,12 +591,16 @@ def RandomNoiseMask(image, keep_prob=0.95, seed=None):
         raise ValueError('keep_prob type should be one of float, tuple, list.')
     return image
 
-def RandomNoiseSaltPepper(image, keep_prob=0.8, seed=None):
+def RandomNoiseSaltPepper(image, keep_prob=0.95, seed=None):
     """Salt-Pepper noise apply to image.
     
     The salt-pepper noise is based on the signal-to-noise ratio of the image,
     randomly generating the pixel positions in some images all channel,
     and randomly assigning these pixels to 0 or 255.
+    
+    Tips:
+        1 mean pixel have no change.
+        a suitable interval is [0.9, 1].
     Args:
         image: Either a 3-D float Tensor of shape [height, width, depth], or a 4-D
                Tensor of shape [batch_size, height, width, depth].
@@ -625,12 +633,16 @@ def RandomNoiseSaltPepper(image, keep_prob=0.8, seed=None):
         raise ValueError('keep_prob type should be one of int, float, tuple, list.')
     return image
 
-def RandomNoiseRainbow(image, keep_prob=0.8, seed=None):
+def RandomNoiseRainbow(image, keep_prob=0.95, seed=None):
     """Rainbowr noise apply to image.
     
     The rainbow noise is based on the signal-to-noise ratio of the image,
     randomly generating the pixel positions in some images,
     and randomly assigning these pixels to 0 or 255.
+    
+    Tips:
+        1 mean pixel have no change.
+        a suitable interval is [0.9, 1].
     Args:
         image: Either a 3-D float Tensor of shape [height, width, depth], or a 4-D
                Tensor of shape [batch_size, height, width, depth].
