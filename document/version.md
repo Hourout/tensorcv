@@ -1,3 +1,12 @@
+#### tensorcv-0.1.8
+- add tc.data.datasets.cifar10()
+- add tc.data.datasets.cifar100()
+#### tensorcv-0.1.7
+- add tc.data.datasets.mnist_kuzushiji10()
+- add tc.data.datasets.mnist_kuzushiji49()
+#### tensorcv-0.1.6
+- add tc.data.datasets.mnist()
+- add tc.data.datasets.mnist_fashion()
 #### tensorcv-0.1.5
 - fix some bug tc.image module
 - add doc with tc.image module
