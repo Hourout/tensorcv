@@ -34,3 +34,5 @@ from tensorcv.Classification._resnetv1b import resnet50_v1c, resnet101_v1c, resn
 from tensorcv.Classification._resnetv1b import resnet50_v1d, resnet101_v1d, resnet152_v1d
 from tensorcv.Classification._resnetv1b import resnet50_v1e, resnet101_v1e, resnet152_v1e
 from tensorcv.Classification._resnetv1b import resnet50_v1s, resnet101_v1s, resnet152_v1s
+
+from tensorcv.Classification._darknet import darknet53
