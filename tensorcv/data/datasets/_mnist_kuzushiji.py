@@ -2,6 +2,7 @@ import os
 import time
 import imageio
 import numpy as np
+import tensorflow as tf
 
 def mnist_kuzushiji10(root):
     """Kuzushiji-MNIST from https://github.com/rois-codh/kmnist.
