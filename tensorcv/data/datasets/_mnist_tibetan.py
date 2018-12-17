@@ -5,6 +5,7 @@ import requests
 import imageio
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 
 def mnist_tibetan(root):
     """Tibetan-MNIST from https://github.com/bat67/TibetanMNIST.
