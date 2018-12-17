@@ -3,6 +3,7 @@ import gzip
 import time
 import imageio
 import numpy as np
+import tensorflow as tf
 
 def mnist(root):
     """MNIST handwritten digits dataset from http://yann.lecun.com/exdb/mnist
