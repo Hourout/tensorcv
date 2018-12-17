@@ -35,7 +35,7 @@ def mnist_tibetan(root):
         Store the absolute path of the data directory, is `root/mnist_tibetan`.
     """
     start = time.time()
-    print('Downloading data from https://github.com/Hourout/datasets/TibetanMNIST')
+    print('Downloading data from https://github.com/Hourout/datasets/tree/master/TibetanMNIST')
     assert tf.gfile.IsDirectory(root), '`root` should be directory.'
     task_path = os.path.join(root, 'mnist_tibetan')
     url_list = ['https://raw.githubusercontent.com/Hourout/datasets/master/TibetanMNIST/TibetanMNIST_28_28_01.csv',
