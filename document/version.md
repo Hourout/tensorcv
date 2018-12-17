@@ -1,3 +1,8 @@
+#### tensorcv-0.2.0
+- fix some bug tc.data.datasets module
+- add doc with tc.data.datasets module
+#### tensorcv-0.1.9
+- add tc.data.datasets.mnist_tibetan()
 #### tensorcv-0.1.8
 - add tc.data.datasets.cifar10()
 - add tc.data.datasets.cifar100()
