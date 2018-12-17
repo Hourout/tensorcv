@@ -7,7 +7,7 @@ def readme():
 
 setup(name='tensorcv',
       version='0.2.0',
-      install_requires=['pandas', 'tensorflow>=1.12.0'],
+      install_requires=['pandas', 'numpy', 'imageio', 'tensorflow>=1.12.0'],
       description='tf.Keras implementations of a Deep Learning Toolkit for Computer Vision.',
       long_description=readme(),
       long_description_content_type='text/markdown',
