@@ -3,6 +3,7 @@ import time
 import tarfile
 import imageio
 import numpy as np
+import tensorflow as tf
 
 def cifar10(root):
     """CIFAR10 image classification dataset from https://www.cs.toronto.edu/~kriz/cifar.html
