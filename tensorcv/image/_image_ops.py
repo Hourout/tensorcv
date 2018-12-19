@@ -290,35 +290,31 @@ def RandomTranspose(image, random=True, seed=None):
         image = tf.image.transpose_image(image)
     return image
 
-def RandomRotation(image, k=[0, 1, 2, 3], random=True, seed=None):
+def RandomRotation(image, k=[0, 1, 2, 3], seed=None):
     """Rotate image(s) counter-clockwise by 90 degrees.
     
     Tips:
-        if random is True, k should be list sample from [0, 1, 2, 3].
-        if random is False, k should be int sample from [1, 2, 3].
+        k should be int one of [1, 2, 3] or sublist in the [0, 1, 2, 3].
     Args:
         image: 4-D Tensor of shape `[batch, height, width, channels]` or
                3-D Tensor of shape `[height, width, channels]`.
-        k: A scalar integer. The number of times the image is rotated by 90 degrees.
-        random: bool, default True.
-                if True, k must be list, random select t form k, rotation image by 90 degrees * t.
-                if False, k must be int, rotation image by 90 degrees * k.
+        k: if k is list, random select t form k, rotation image by 90 degrees * t.
+           if k is int, rotation image by 90 degrees * k.
         seed: A Python integer. Used to create a random seed.
               See `tf.set_random_seed` for behavior.
     Returns:
     A rotated tensor of the same type and shape as `image`.
   Raises:
-    ValueError: if the shape of `image` not supported or `random` dtype not bool.
+    ValueError: if the shape of `image` not supported or `k` dtype not int or list.
   """
-    assert isinstance(random, bool), 'random should be bool type.'
-    if random:
-        assert isinstance(k, list), 'if random is True, sublist in the [0, 1, 2, 3].'
+    if isinstance(k, list):
         k_value = tf.convert_to_tensor(k)
         index = tf.argmax(tf.random.uniform([tf.shape(k_value)[0]], 0, 1))
         image = tf.image.rot90(image, k=k_value[index])
-    else:
-        assert k in [1, 2, 3], 'if random is False, should be int one of [1, 2, 3].'
+    elif k in [1, 2, 3]:
         image = tf.image.rot90(image, k)
+    else:
+        raise ValueError('k should be int one of [1, 2, 3] or sublist in the [0, 1, 2, 3].')
     return image
 
 def RandomCropCentralResize(image, central_rate, size, method=0, seed=None):
