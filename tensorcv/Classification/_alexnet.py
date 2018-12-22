@@ -33,12 +33,12 @@ def get_alexnet(input_shape, include_top, pretrain_file, classes):
     model = tf.keras.Model(image, x, name='alexnet')
     if isinstance(pretrain_file, str):
         if tf.gfile.Exists(pretrain_file):
-            model.load_weights(pretrain_file, by_name=True)
+            model.load_weights(pretrain_file)
         else:
             tf.gfile.MakeDirs(pretrain_file)
             tf.gfile.DeleteRecursively(pretrain_file)
             tf.keras.utils.get_file(pretrain_file, alexnet_url)
-            model.load_weights(pretrain_file, by_name=True)
+            model.load_weights(pretrain_file)
     return model
 
 def alexnet(input_shape, include_top=True, pretrain_file=False, classes=1000):
