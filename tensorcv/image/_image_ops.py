@@ -1,6 +1,12 @@
 import tensorflow as tf
 from tensorflow.python.ops.image_ops_impl import _ImageDimensions
 
+__all__ = ['read_image', 'RandomBrightness', 'RandomContrast', 'RandomHue',
+           'RandomSaturation', 'RandomGamma', 'RandomFlipLeftRight', 'RandomFlipTopBottom',
+           'RandomTranspose', 'RandomRotation', 'RandomCropCentralResize', 'RandomCropPointResize',
+           'Normalize', 'RandomRescale', 'RandomNoiseGaussian', 'RandomNoisePoisson',
+           'RandomNoiseMask', 'RandomNoiseSaltPepper', 'RandomNoiseRainbow']
+
 def read_image(filename, channel=0, image_format='mix'):
     """Convenience function for read image type one of `bmp`, `gif`, `jpeg`, `jpg`, and `png`.
     
