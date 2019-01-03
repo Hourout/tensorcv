@@ -1,1 +1,1 @@
-from tensorcv.losses._loss import *
+from tensorcv.losses._losses import *
