@@ -68,3 +68,16 @@ def minkowski(x, y, p, name=None):
     assert _ImageDimensions(x, x.get_shape().ndims)==_ImageDimensions(y, y.get_shape().ndims), "x and y should be same shape."
     d = tf.math.sqrt(tf.math.reduce_sum(tf.math.pow(tf.math.abs(tf.math.subtract(x, y)), p)))
     return d
+
+def hamming(x, y, name=None):
+    """
+    Args:
+        x: A Tensor with type float32 or float64.
+        y: A Tensor with the same type as x.
+        name: A name for the operation (optional).
+    Returns:
+        A Tensor with the same type as x.
+    """
+    assert _ImageDimensions(x, x.get_shape().ndims)==_ImageDimensions(y, y.get_shape().ndims), "x and y should be same shape."
+    d = tf.math.reduce_min(tf.shape(tf.where(tf.math.equal(x, y))))
+    return d
