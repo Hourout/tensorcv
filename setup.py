@@ -6,8 +6,8 @@ def readme():
         return f.read()
 
 setup(name='tensorcv',
-      version='0.2.0',
-      install_requires=['tensordata>=0.0.1', 'tensorflow>=1.12.0'],
+      version='0.3.0',
+      install_requires=['tensorflow>=2.0.0'],
       description='tf.Keras implementations of a Deep Learning Toolkit for Computer Vision.',
       long_description=readme(),
       long_description_content_type='text/markdown',
@@ -25,7 +25,8 @@ setup(name='tensorcv',
           'Topic :: Scientific/Engineering :: Visualization',
           'License :: OSI Approved :: Apache Software License',
           'Programming Language :: Python :: 3.5',
-          'Programming Language :: Python :: 3.6'
+          'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
       ],
       packages=find_packages(),
       zip_safe=False)
